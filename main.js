@@ -1,0 +1,1 @@
+console.log("Hej, nu kör vi JavaScript!");
