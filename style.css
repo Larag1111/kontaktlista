@@ -12,3 +12,19 @@
 
 
 }
+
+.name-text, .phone-text {
+    flex: 1;
+}
+
+#contact-list li {
+    border: 1px solid #ccc; 
+    padding: 10px; 
+    margin-bottom: 10px; 
+    border-radius: 5px; 
+    background-color: #f9f9f9; 
+    gap: 5px; 
+    display: flex; 
+    align-items: center;
+ 
+}

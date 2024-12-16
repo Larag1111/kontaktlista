@@ -1,59 +1,68 @@
-
 const form = document.getElementById('contact-form');
+const contactList = document.getElementById('contact-list');
 
 
-form.addEventListener('submit', function(event) {
+form.addEventListener('submit', function (event) {
     event.preventDefault(); 
 
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+
+    if (!name || !phone) {
+        alert("Både namn och telefonnummer måste fyllas i!");
+        return;
+    }
+
+   
+    createContact(name, phone);
+
+    
+    form.reset();
+});
+
+function createContact(name, phone) {
+    const li = document.createElement('li'); 
+
   
-    const name = document.getElementById('name').value;
-    const phone = document.getElementById('phone').value;
+    const nameText = document.createElement('span');
+    nameText.textContent = `Namn: ${name} `;
+    nameText.classList.add('name-text');
 
-   
-    const li = document.createElement('li');
+    
+    const phoneText = document.createElement('span');
+    phoneText.textContent = `Telefon: ${phone} `;
+    phoneText.classList.add('phone-text');
 
-   
-    const nameInput = document.createElement('input');
-    nameInput.type = 'text';
-    nameInput.value = name;
-    nameInput.disabled = true; 
-
-    const phoneInput = document.createElement('input');
-    phoneInput.type = 'tel';
-    phoneInput.value = phone;
-    phoneInput.disabled = true;
-
-   
+    
     const editButton = document.createElement('button');
     editButton.textContent = 'Ändra';
 
-    const deleteButton = document.createElement('button');
-    deleteButton.textContent = 'Radera';
-
-
-    editButton.addEventListener('click', function() {
-        if (nameInput.disabled) {
-            nameInput.disabled = false;
-            phoneInput.disabled = false;
-            editButton.textContent = 'Spara'; 
+    
+    editButton.addEventListener('click', function () {
+        if (editButton.textContent === 'Ändra') {
+            const newName = prompt("Ange nytt namn:", nameText.textContent.replace("Namn: ", ""));
+            const newPhone = prompt("Ange nytt telefonnummer:", phoneText.textContent.replace("Telefon: ", ""));
+            if (newName) nameText.textContent = `Namn: ${newName} `;
+            if (newPhone) phoneText.textContent = `Telefon: ${newPhone} `;
+            editButton.textContent = 'Spara';
         } else {
-            nameInput.disabled = true;
-            phoneInput.disabled = true;
-            editButton.textContent = 'Ändra'; 
+            editButton.textContent = 'Ändra';
         }
     });
 
- 
-    deleteButton.addEventListener('click', function() {
-        li.remove(); 
+    
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Radera';
+
+    deleteButton.addEventListener('click', function () {
+        li.remove();
     });
 
-   
-    li.appendChild(nameInput);
-    li.appendChild(phoneInput);
+    
+    li.appendChild(nameText);
+    li.appendChild(phoneText);
     li.appendChild(editButton);
     li.appendChild(deleteButton);
 
-   
-    document.getElementById('contact-list').appendChild(li);
-});
+    contactList.appendChild(li);
+}
