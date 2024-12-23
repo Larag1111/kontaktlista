@@ -1,9 +1,8 @@
 const form = document.getElementById('contact-form');
 const contactList = document.getElementById('contact-list');
 
-
 form.addEventListener('submit', function (event) {
-    event.preventDefault(); 
+    event.preventDefault();
 
     const name = document.getElementById('name').value.trim();
     const phone = document.getElementById('phone').value.trim();
@@ -13,44 +12,58 @@ form.addEventListener('submit', function (event) {
         return;
     }
 
-   
     createContact(name, phone);
 
-    
     form.reset();
 });
 
 function createContact(name, phone) {
-    const li = document.createElement('li'); 
-
-  
-    const nameText = document.createElement('span');
-    nameText.textContent = `Namn: ${name} `;
-    nameText.classList.add('name-text');
+    const li = document.createElement('li');
 
     
-    const phoneText = document.createElement('span');
-    phoneText.textContent = `Telefon: ${phone} `;
-    phoneText.classList.add('phone-text');
+    const nameSpan = document.createElement('span');
+    nameSpan.textContent = name;
+    nameSpan.classList.add('contact-name');
 
-    
+    const phoneSpan = document.createElement('span');
+    phoneSpan.textContent = phone;
+    phoneSpan.classList.add('contact-phone');
+
+   
     const editButton = document.createElement('button');
     editButton.textContent = 'Ändra';
 
-    
     editButton.addEventListener('click', function () {
         if (editButton.textContent === 'Ändra') {
-            const newName = prompt("Ange nytt namn:", nameText.textContent.replace("Namn: ", ""));
-            const newPhone = prompt("Ange nytt telefonnummer:", phoneText.textContent.replace("Telefon: ", ""));
-            if (newName) nameText.textContent = `Namn: ${newName} `;
-            if (newPhone) phoneText.textContent = `Telefon: ${newPhone} `;
+            
+            const nameInput = document.createElement('input');
+            nameInput.type = 'text';
+            nameInput.value = nameSpan.textContent;
+
+            const phoneInput = document.createElement('input');
+            phoneInput.type = 'text';
+            phoneInput.value = phoneSpan.textContent;
+
+            li.replaceChild(nameInput, nameSpan);
+            li.replaceChild(phoneInput, phoneSpan);
+
             editButton.textContent = 'Spara';
         } else {
+            
+            const updatedName = li.querySelector('input[type="text"]').value;
+            const updatedPhone = li.querySelector('input[type="text"]:nth-child(2)').value;
+
+            nameSpan.textContent = updatedName;
+            phoneSpan.textContent = updatedPhone;
+
+            li.replaceChild(nameSpan, li.querySelector('input[type="text"]'));
+            li.replaceChild(phoneSpan, li.querySelector('input[type="text"]:nth-child(2)'));
+
             editButton.textContent = 'Ändra';
         }
     });
 
-    
+   
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Radera';
 
@@ -59,8 +72,8 @@ function createContact(name, phone) {
     });
 
     
-    li.appendChild(nameText);
-    li.appendChild(phoneText);
+    li.appendChild(nameSpan);
+    li.appendChild(phoneSpan);
     li.appendChild(editButton);
     li.appendChild(deleteButton);
 
